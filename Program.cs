@@ -74,19 +74,39 @@ namespace ISIP224_Pavlova
 
         static void Sortirovka(Dictionary<string, int> operations)
         {
-            //var sorted = operations.OrderBy(x => x.Value);
-            //foreach (var item in sorted)
-            //{
-            //    Console.WriteLine($"{item.Key}: {item.Value}");
-            //}
-            // переписать
+            var list = operations.ToList();
+
+            int n = list.Count;
+            for (int i = 0; i < n - 1; i++)
+            {
+                for (int j = 0; j < n - i - 1; j++)
+                {
+                    if (list[j].Value > list[j + 1].Value)
+                    {
+                        var temp = list[j];
+                        list[j] = list[j + 1];
+                        list[j + 1] = temp;
+                    }
+                }
+            }
+            Console.WriteLine("Отсортировано по возрастанию цены:");
+            foreach (var item in list)
+            {
+                Console.WriteLine($"{item.Key}: {item.Value}");
+            }
         }
 
         static void Convertation(Dictionary<string, int> operations)
         {
             Console.Write("Введите курс конвертации (например, 90): ");
             int rate = Convert.ToInt32(Console.ReadLine());
-            //пока неизвестно
+
+            Console.WriteLine("Конвертированные значения:");
+            foreach (var item in operations)
+            {
+                int converted = item.Value * rate;
+                Console.WriteLine($"{item.Key}: {converted}");
+            }
         }
 
         static void Found(Dictionary<string, int> operations)
