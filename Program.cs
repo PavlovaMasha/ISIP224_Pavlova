@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace ISIP224_Pavlova
@@ -17,35 +18,90 @@ namespace ISIP224_Pavlova
             Dictionary<string, int> operations = new Dictionary<string, int>();
             for (int i = 0; i < n; i++)
             {
-                Console.Write("Введите операцию по шаблону: Название услуги или товара, Количество денег");
-                string text = Console.ReadLine();
-                string[] words = text.Split(new[] { ';' });
-                operations.Add(words[0].Trim(), Convert.ToInt32(words[1].Trim()));
+                while (true)
+                {
+            
+                    Console.Write($"{i+1}. Введите операцию по шаблону: Название услуги или товара; Количество денег - ");
+                    string text = Console.ReadLine();
+                    if (string.IsNullOrWhiteSpace(text))
+                    {   
+                        Console.WriteLine("Ошибка ввода: ввод не должен быть пустым.");
+                        continue;
+                    }
+
+                    string[] words = text.Split(';');
+
+                    if (words.Length != 2)
+                    {
+                        Console.WriteLine("Ошибка ввода: используйте правильный формат: Название товара; Число.");
+                        continue;
+                    }
+
+                    string nameText = words[0].Trim();
+                    string moneyText = words[1].Trim();
+                    if (nameText == "")
+                    {
+                        Console.WriteLine("Ошибка: название товара не указано.");
+                        continue;
+                    }
+
+                    int money;
+
+                    if (!int.TryParse(moneyText, out money))
+                    {
+                        Console.WriteLine("Ошибка: количество денег должно быть целым числом.");
+                        continue;
+                    }
+
+                    if (money < 0)
+                    {
+                        Console.WriteLine("Ошибка: количество денег не может быть отрицательным.");
+                        continue;
+                    }
+
+                    if (operations.ContainsKey(nameText))
+                    {
+                        //operations[name] += money;
+                        Console.WriteLine("Ошибка: такое название товара уже есть в списке. Введите другое название. ");
+                        continue;
+                    }
+                    
+                    operations.Add(words[0].Trim(), Convert.ToInt32(words[1].Trim()));
+                                        
+                    break;
+                }
             }
-            Console.WriteLine("Меню");
-            Console.WriteLine("1. Вывод данных");
-            Console.WriteLine("2. Статистика (среднее, максимальное, минимальное, сумма)");
-            Console.WriteLine("3. Сортировка по цене");
-            Console.WriteLine("4. Конвертация валюты");
-            Console.WriteLine("5. Поиск по названию");
-            Console.WriteLine("0. Выход");
-            Console.WriteLine("");
-            Console.Write("Введите номер пункта меню:");
-            int number = Convert.ToInt32(Console.ReadLine());
-            switch (number)
-            {
-                case 0: return;
-                case 1:
+            int nmb = 1;
+            while (nmb != 0) 
+            { 
+                Console.WriteLine("");
+                Console.WriteLine("Меню");
+                Console.WriteLine("1. Вывод данных");
+                Console.WriteLine("2. Статистика (среднее, максимальное, минимальное, сумма)");
+                Console.WriteLine("3. Сортировка по цене");
+                Console.WriteLine("4. Конвертация валюты");
+                Console.WriteLine("5. Поиск по названию");
+                Console.WriteLine("0. Выход");
+                Console.WriteLine("");
+                Console.Write("Введите номер пункта меню: ");
+                int number = Convert.ToInt32(Console.ReadLine());
+                nmb = number;
+
+                switch (number)
+                {
+                    case 0: return;
+                    case 1:
                     foreach (var item in operations)
                     {
                         Console.WriteLine($"{item.Key}: {item.Value}");
                     }
                     break;
-                case 2: Statistika(operations); break;
-                case 3: Sortirovka(operations); break;
-                case 4: Convertation(operations); break;
-                case 5: Found(operations); break;
-                default: Console.WriteLine("Такого пункта не существует"); return;
+                    case 2: Statistika(operations); break;
+                    case 3: Sortirovka(operations); break;
+                    case 4: Convertation(operations); break;
+                    case 5: Found(operations); break;
+                    default: Console.WriteLine("Такого пункта не существует"); break;
+                }
             }
 
         }
