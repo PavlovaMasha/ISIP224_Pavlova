@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace ISIP224_Pavlova
 {
-    public enum Category
+    public enum ProdCategory
     {
-        Electronics = 1,
-        Food,
-        Clothing
+        Food = 1,
+        Drinks,
+        Clothing,
+        Electronics,
+        Other
     }
 
     //public class Tovar
@@ -43,17 +45,22 @@ namespace ISIP224_Pavlova
 
     class Product
     {
-        public int ProductID { get; set; }
+        public string ProductID { get; set; }
         public string Name { get; set; }
         public decimal Price { get; set; }
         public int Quantity { get; set; }
+        public int QuSklad { get; set; }
+        public ProdCategory Category { get; set; }
 
-        public Product(int productID, string name, decimal price, int quantity)
+
+        public Product(string productID, string name, decimal price, int quantity, int quSklad, ProdCategory category)
         {
             ProductID = productID;
             Name = name;
             Price = price;
             Quantity = quantity;
+            QuSklad = quSklad;
+            Category = category;
         }
 
         public void PrintInfo()
@@ -62,7 +69,9 @@ namespace ISIP224_Pavlova
                 $"ID: {ProductID}, " +
                 $"Название: {Name}, " +
                 $"Цена: {Price:F2} руб., " +
-                $"Количество: {Quantity}");
+                $"Количество: {Quantity}, " +
+                $"Склад: {QuSklad}, " +
+                $"Категория: {Category}");
         }
     }
     class Program
@@ -72,8 +81,8 @@ namespace ISIP224_Pavlova
             List<Product> products = new List<Product>();
 
             // Добавление начальных товаров
-            products.Add(new Product(1, "Хлеб", 60.50m, 20));
-            products.Add(new Product(2, "Молоко", 90.00m, 15));
+            products.Add(new Product("1_1", "Хлеб", 60.50m, 20, 50, ProdCategory.Food));
+            products.Add(new Product("1_2", "Молоко", 90.00m, 15, 10, ProdCategory.Food));
 
             while (true)
             {
@@ -128,23 +137,79 @@ namespace ISIP224_Pavlova
 
         static void AddProduct(List<Product> products)
         {
-            Console.Write("Введите ID товара: ");
-            int productID = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Введите ID товара: 1_");
+            string productID = Console.ReadLine();
+            while (string.IsNullOrWhiteSpace(productID))
+            {
+                Console.Write("ID товара не введен. Повторите ввод: 1_");
+                productID = Console.ReadLine();
+            }
+            productID = "1_" + productID;
 
             Console.Write("Введите название товара: ");
             string name = Console.ReadLine();
+            while (string.IsNullOrWhiteSpace(name))
+            {
+                Console.Write("Название не должно быть пустым. Повторите ввод: ");
+                name = Console.ReadLine();
+            }
 
             Console.Write("Введите цену: ");
-            decimal price = Convert.ToDecimal(Console.ReadLine());
+            decimal price;
+            while (!decimal.TryParse(Console.ReadLine(), out price) ||
+                   price <= 0)
+            {
+                Console.Write("Ошибка. Введите корректную цену: ");
+            }
 
             Console.Write("Введите количество: ");
-            int quantity = Convert.ToInt32(Console.ReadLine());
+            int quantity;
+            while (!int.TryParse(Console.ReadLine(), out quantity) ||
+                       quantity < 0)
+            {
+                Console.Write("Ошибка. Введите целое неотрицательное число: ");
+            }
+
+            Console.Write("Введите остаток на Складе: ");
+            int quSklad;
+            while (!int.TryParse(Console.ReadLine(), out quSklad) ||
+                       quSklad < 0)
+            {
+                Console.Write("Ошибка. Введите целое неотрицательное число: ");
+            }
+
+
+            ProdCategory category;
+            while (true)
+            {
+                Console.WriteLine("Выберите категорию товара:");
+                Console.WriteLine("1 — Food");
+                Console.WriteLine("2 — Drinks");
+                Console.WriteLine("3 — Clothing");
+                Console.WriteLine("4 — Electronics");
+                Console.WriteLine("5 — Other");
+                Console.Write("Ваш выбор: ");
+
+                string categoryText = Console.ReadLine();
+
+                if (Enum.TryParse(categoryText, out ProdCategory enterCategory) &&
+                    Enum.IsDefined(typeof(ProdCategory), enterCategory))
+                {
+                    category = enterCategory;
+                    break;
+                }
+
+                Console.WriteLine("Ошибка. Выберите число от 1 до 5.");
+            }
 
             Product product = new Product(
                 productID,
                 name,
                 price,
-                quantity);
+                quantity,
+                quSklad,
+                category
+                );
 
             products.Add(product);
 
@@ -154,7 +219,7 @@ namespace ISIP224_Pavlova
         static void RemoveProduct(List<Product> products)
         {
             Console.Write("Введите ID товара для удаления: ");
-            int productID = Convert.ToInt32(Console.ReadLine());
+            string productID = Console.ReadLine();
 
             for (int i = 0; i < products.Count; i++)
             {
