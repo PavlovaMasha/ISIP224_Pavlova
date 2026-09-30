@@ -13,7 +13,7 @@ namespace ISIP224_Pavlova
     {
         static void Main(string[] args)
         {
-            Console.Write("Введите количество операций, которые будут записаны (от 2 до 40): ");
+            Console.Write("Введите количество товаров/услуг, которые будут записаны (от 2 до 40): ");
             int n = Convert.ToInt32(Console.ReadLine());
             Dictionary<string, int> operations = new Dictionary<string, int>();
             for (int i = 0; i < n; i++)
@@ -21,7 +21,7 @@ namespace ISIP224_Pavlova
                 while (true)
                 {
             
-                    Console.Write($"{i+1}. Введите операцию по шаблону: Название услуги или товара; Количество денег - ");
+                    Console.WriteLine($"{i+1}. Введите операцию по шаблону: Название услуги или товара; Количество денег");
                     string text = Console.ReadLine();
                     if (string.IsNullOrWhiteSpace(text))
                     {   
@@ -61,7 +61,6 @@ namespace ISIP224_Pavlova
 
                     if (operations.ContainsKey(nameText))
                     {
-                        //operations[name] += money;
                         Console.WriteLine("Ошибка: такое название товара уже есть в списке. Введите другое название. ");
                         continue;
                     }
@@ -154,8 +153,12 @@ namespace ISIP224_Pavlova
 
         static void Convertation(Dictionary<string, int> operations)
         {
-            Console.Write("Введите курс конвертации (например, 90): ");
-            int rate = Convert.ToInt32(Console.ReadLine());
+            int rate;
+            do
+            {
+                Console.Write("Введите курс конвертации (например, 90): ");
+            }
+            while (!int.TryParse(Console.ReadLine(), out rate));
 
             Console.WriteLine("Конвертированные значения:");
             foreach (var item in operations)
@@ -168,12 +171,14 @@ namespace ISIP224_Pavlova
         static void Found(Dictionary<string, int> operations)
         {
             Console.Write("Введите название для поиска: ");
-            string search = Console.ReadLine().Trim();
+            string search = Console.ReadLine().Trim().ToLower();
+            bool flag = false;
             foreach (var elem in operations)
             {
-                if (elem.Key.Contains(search)) { Console.WriteLine(elem); }
+                if (elem.Key.ToLower().Contains(search)) { Console.WriteLine(elem); flag = true; }
                 ;
             }
+            if (!flag) { Console.WriteLine("Товар не найден"); }
         }
     }
 }
