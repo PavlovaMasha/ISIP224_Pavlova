@@ -13,7 +13,7 @@ namespace ISIP224_Pavlova
     {
         static void Main(string[] args)
         {
-            Console.Write("Введите количество товаров/услуг, которые будут записаны (от 2 до 40): ");
+            Console.Write("Введите количество товаров/услуг, которые будут записаны (от 2 до 100): ");
             int n = Convert.ToInt32(Console.ReadLine());
             Dictionary<string, int> operations = new Dictionary<string, int>();
             for (int i = 0; i < n; i++)
