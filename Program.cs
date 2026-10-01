@@ -135,10 +135,35 @@ namespace ISIP224_Pavlova
 
             Console.Write("Введите название товара: ");
             string name = Console.ReadLine();
-            while (string.IsNullOrWhiteSpace(name))
+            bool hasDigits = false;
+            foreach (char c in name)
             {
-                Console.Write("Название не должно быть пустым. Повторите ввод: ");
+                if (char.IsDigit(c))
+                {
+                    hasDigits = true;
+                    break;
+                }
+            }
+            while (string.IsNullOrWhiteSpace(name) || hasDigits)
+            {
+                if (string.IsNullOrWhiteSpace(name))
+                {
+                    Console.Write("Название не должно быть пустым. Повторите ввод: ");
+                }
+                else if (hasDigits)
+                {
+                    Console.Write("Название товара не должно содержать цифры. Повторите ввод: ");
+                }
                 name = Console.ReadLine();
+                hasDigits = false;
+                foreach (char c in name)
+                {
+                    if (char.IsDigit(c))
+                    {
+                        hasDigits = true;
+                        break;
+                    }
+                }
             }
 
             Console.Write("Введите цену: ");
