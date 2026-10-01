@@ -15,33 +15,6 @@ namespace ISIP224_Pavlova
         Other
     }
 
-    //public class Tovar
-    //{
-    //    public static int Tovar_ID;
-    //    public string FullName;
-    //    public bool IsInStock;
-    //    public int Price;
-    //    public int Quantity;
-    //    public int Category;
-    //    public Tovar(string name, bool isinstock, int price, int quantity, int category)
-    //    {
-    //        this.FullName = name;
-    //        this.IsInStock = isinstock;
-    //        this.Price = price;
-    //        this.Quantity = quantity;
-    //        this.Category = category;
-    //    }
-
-    //    //Добавить товар
-
-    //    //Удалить товар
-
-    //    //Заказать поставку товара
-
-    //    //Продать товар
-
-    //    //Поиск товаров(по коду, названию и категории). Необходимо выводить полную информацию о товаре.
-    //}
 
     class Product
     {
@@ -80,7 +53,6 @@ namespace ISIP224_Pavlova
         {
             List<Product> products = new List<Product>();
 
-            // Добавление начальных товаров
             products.Add(new Product("1_1", "Хлеб", 60.50m, 20, 50, ProdCategory.Food));
             products.Add(new Product("1_2", "Молоко", 90.00m, 15, 10, ProdCategory.Food));
 
