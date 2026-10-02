@@ -42,7 +42,7 @@ namespace ISIP224_Pavlova
                 Console.WriteLine("Подсчёт количества согласных букв в тексте: " + Count_of_soglas_bykv(text));
                 Console.WriteLine("Самое длинное слово в тексте: " + Max_word(text));
                 Console.WriteLine("Статистика по частоте встречаемости каждой буквы:");
-                Console.WriteLine(Count_of_every_bykv(text));
+                Count_of_every_bykv(text);
                 Console.WriteLine();
                 Console.WriteLine("Меню");
                 Console.WriteLine("1 - Ввести новый текст");
@@ -64,7 +64,7 @@ namespace ISIP224_Pavlova
                         Console.WriteLine("Подсчёт количества согласных букв в тексте: " + Count_of_soglas_bykv(texts[i]));
                         Console.WriteLine("Самое длинное слово в тексте: " + Max_word(texts[i]));
                         Console.WriteLine("Статистика по частоте встречаемости каждой буквы:");
-                        Console.WriteLine(Count_of_every_bykv(texts[i]));
+                        Count_of_every_bykv(texts[i]);
                         Console.WriteLine();
                     }
                 }
