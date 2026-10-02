@@ -115,7 +115,7 @@ namespace ISIP224_Pavlova
                 }
                 else if (choice == "10")
                 {
-                    AddBookToCart();
+                    AddBookToCart(books);
                 }
                 else if (choice == "11")
                 {
@@ -408,7 +408,7 @@ namespace ISIP224_Pavlova
 
             for (int i = 0; i < number; i++) { AddBook(books); }
         }
-        static void AddBookToCart()
+        static void AddBookToCart(List<Book> books)
         {
             Console.WriteLine("Добавление книг в корзину");
 
