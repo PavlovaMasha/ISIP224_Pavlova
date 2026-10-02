@@ -40,7 +40,7 @@ namespace ISIP224_Pavlova
                 $"Автор: {Author}, " +
                 $"Жанр: {Genre}, " +
                 $"Год: {Year}, " +
-                $"Цена: {Price:F2} руб.");
+                $"Цена: {Price:F2} руб."); //Fixed-point, количество знаков после запятой
         }
     }
     internal class Program
