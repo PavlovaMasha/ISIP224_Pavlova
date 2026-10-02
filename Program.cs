@@ -10,22 +10,70 @@ namespace ISIP224_Pavlova
     {
         static void Main(string[] args)
         {
-            Console.Write("Ведите текст (минимум 100 символов): ");
-            string text;
-            bool flag = false;
-            do {
-                text = Console.ReadLine();
-                if (text == null || text.Length < 100) { Console.WriteLine("Ошибка. Ваш текст содержит менее 100 символов"); flag = true; }
-                else { flag = false; }
-            } while (flag);
-            Console.WriteLine("Подсчёт количества слов в тексте: " + Count_of_words(text));
-            Console.WriteLine("Поиск самого короткого слова: " + Min_word(text));
-            Console.WriteLine("Подсчёт количества предложений: " + Count_of_sentences(text));
-            Console.WriteLine("Подсчёт количества гласных букв в тексте: " + Count_of_glas_bykv(text));
-            Console.WriteLine("Подсчёт количества согласных букв в тексте: " + Count_of_soglas_bykv(text));
-            Console.WriteLine("Самое длинное слово в тексте: " + Max_word(text));
-            Console.WriteLine("Cтатистика по частоте встречаемости каждой буквы: " + Count_of_every_bykv(text));
+            List<string> texts = new List<string>();
+            bool work = true;
+            while (work)
+            {
+                Console.Write("Введите текст (минимум 100 символов): ");
+                string text;
+                bool flag = false;
+                do
+                {
+                    text = Console.ReadLine();
 
+                    if (text == null || text.Length < 100)
+                    {
+                        Console.WriteLine("Ошибка. Ваш текст содержит менее 100 символов.");
+                        Console.Write("Введите текст ещё раз: ");
+                        flag = true;
+                    }
+                    else
+                    {
+                        flag = false;
+                    }
+                }
+                while (flag);
+                texts.Add(text);
+                Console.WriteLine();
+                Console.WriteLine("Подсчёт количества слов в тексте: " + Count_of_words(text));
+                Console.WriteLine("Поиск самого короткого слова: " + Min_word(text));
+                Console.WriteLine("Подсчёт количества предложений: " + Count_of_sentences(text));
+                Console.WriteLine("Подсчёт количества гласных букв в тексте: " + Count_of_glas_bykv(text));
+                Console.WriteLine("Подсчёт количества согласных букв в тексте: " + Count_of_soglas_bykv(text));
+                Console.WriteLine("Самое длинное слово в тексте: " + Max_word(text));
+                Console.WriteLine("Статистика по частоте встречаемости каждой буквы:");
+                Console.WriteLine(Count_of_every_bykv(text));
+                Console.WriteLine();
+                Console.WriteLine("Меню");
+                Console.WriteLine("1 - Ввести новый текст");
+                Console.WriteLine("2 - Вывести статистику прошлых текстов");
+                Console.WriteLine("0 - Завершить программу");
+                Console.Write("Ваш выбор: ");
+
+                string choice = Console.ReadLine();
+                if (choice == "2")
+                {
+                    Console.WriteLine();
+                    for (int i = 0; i < texts.Count; i++)
+                    {
+                        Console.WriteLine("Текст №" + (i + 1));
+                        Console.WriteLine("Подсчёт количества слов в тексте: " + Count_of_words(texts[i]));
+                        Console.WriteLine("Поиск самого короткого слова: " + Min_word(texts[i]));
+                        Console.WriteLine("Подсчёт количества предложений: " + Count_of_sentences(texts[i]));
+                        Console.WriteLine("Подсчёт количества гласных букв в тексте: " + Count_of_glas_bykv(texts[i]));
+                        Console.WriteLine("Подсчёт количества согласных букв в тексте: " + Count_of_soglas_bykv(texts[i]));
+                        Console.WriteLine("Самое длинное слово в тексте: " + Max_word(texts[i]));
+                        Console.WriteLine("Статистика по частоте встречаемости каждой буквы:");
+                        Console.WriteLine(Count_of_every_bykv(text));
+                        Console.WriteLine();
+                    }
+                }
+                else if (choice == "0")
+                {
+                    work = false;
+                }
+            }
+            Console.WriteLine("Программа завершена.");
         }
     }
 }
