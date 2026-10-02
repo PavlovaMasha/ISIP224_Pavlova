@@ -8,7 +8,7 @@ namespace ISIP224_Pavlova
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             List<string> texts = new List<string>();
             bool work = true;
