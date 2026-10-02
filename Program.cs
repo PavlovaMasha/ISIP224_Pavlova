@@ -165,12 +165,22 @@ namespace ISIP224_Pavlova
 
         static void Count_of_every_bykv(string text)
         {
-            int count = 0;
-            string[] words = GetWords(text);
-            string vowels = "аеёиоуыэюябвгджзйклмнпрстфхцчшщ";
-            for (int i = 0; i < words.Length; i++) 
-            { 
-                
+            string alphabet = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
+            text = text.ToLower();
+            for (int i = 0; i < alphabet.Length; i++)
+            {
+                int count = 0;
+                for (int j = 0; j < text.Length; j++)
+                {
+                    if (text[j] == alphabet[i])
+                    {
+                        count++;
+                    }
+                }
+                if (count > 0)
+                {
+                    Console.WriteLine("Количество букв " + alphabet[i] + ": " + count);
+                }
             }
 
         }
