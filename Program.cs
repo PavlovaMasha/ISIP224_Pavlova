@@ -474,7 +474,5 @@ namespace ISIP224_Pavlova
             Console.WriteLine($"Всего товаров в корзине: {cart.Count}");
             Console.WriteLine($"Итоговая стоимость: {totalSum:F2} руб.");
         }
-
-
     }
 }
