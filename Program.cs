@@ -8,6 +8,14 @@ namespace ISIP224_Pavlova
 {
     internal class Program
     {
+        public enum BookGenre
+        {
+            Fiction = 1,
+            Science,
+            History,
+            Fantasy,
+            Detective
+        }
         static void Main(string[] args)
         {
         }
