@@ -179,7 +179,7 @@ namespace ISIP224_Pavlova
                 }
                 if (count > 0)
                 {
-                    Console.WriteLine("Количество букв " + alphabet[i] + ": " + count);
+                    Console.WriteLine("Количество букв '" + alphabet[i] + "': " + count);
                 }
             }
 
