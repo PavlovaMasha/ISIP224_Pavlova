@@ -49,6 +49,7 @@ namespace ISIP224_Pavlova
         static void Main()
         {
             List<Book> books = new List<Book>();
+            List<Book> cart = new List<Book>();
             books.Add(new Book("1", "Война и мир", "Лев Толстой", BookGenre.Fiction, 1869, 850.00m));
             books.Add(new Book("2", "Преступление и наказание", "Фёдор Достоевский", BookGenre.Detective, 1866, 720.50m));
             books.Add(new Book("3", "Гарри Поттер", "Дж. К. Роулинг", BookGenre.Fantasy, 1997, 950.00m));
@@ -67,6 +68,9 @@ namespace ISIP224_Pavlova
                 Console.WriteLine("6 — Сортировать по году");
                 Console.WriteLine("7 — Самая дорогая и дешёвая книга");
                 Console.WriteLine("8 — Количество книг по авторам");
+                Console.WriteLine("9 — Вставить блок книг (импорт)"); 
+                Console.WriteLine("10 — Добавить книгу в корзину"); 
+                Console.WriteLine("11 — Итоговая стоимость корзины");
                 Console.WriteLine("0 — Выйти");
                 Console.Write("Выберите действие: ");
                 string choice = Console.ReadLine();
@@ -107,6 +111,9 @@ namespace ISIP224_Pavlova
                 {
                     break;
                 }
+                else if (choice == "9") ImportBooks(books);
+                else if (choice == "10") AddToCart(books);
+                else if (choice == "11") ShowCartTotal();
                 else
                 {
                     Console.WriteLine("Такой команды нет.");
@@ -377,6 +384,135 @@ namespace ISIP224_Pavlova
 
             return null;
         }
+
+        // Объявление списков в вашем классе Program:
+        // static List<Book> books = new List<Book>();
+        static List<Book> cart = new List<Book>(); // Список для корзины
+
+        // === 9 — ВСТАВИТЬ БЛОК КНИГ (ИМПОРТ) ===
+        static void ImportBookBlock()
+        {
+            Console.WriteLine("=== ПАКЕТНЫЙ ИМПОРТ КНИГ ===");
+            Console.WriteLine("Вставляйте строки в формате: Название;Автор;Жанр;Год;Цена");
+            Console.WriteLine("Жанры: Fiction, Science, History, Fantasy, Detective (можно цифрой от 1 до 5)");
+            Console.WriteLine("Для завершения импорта нажмите Enter на пустой строке:");
+            Console.WriteLine("-------------------------------------------------------");
+
+            int addedCount = 0;
+            int errorCount = 0;
+
+            while (true)
+            {
+                string line = Console.ReadLine();
+
+                // Прерываем ввод, если строка пустая
+                if (string.IsNullOrWhiteSpace(line))
+                    break;
+
+                string[] parts = line.Split(';');
+
+                // Проверяем, что в строке ровно 5 элементов
+                if (parts.Length == 5)
+                {
+                    try
+                    {
+                        string title = parts[0].Trim();
+                        string author = parts[1].Trim();
+                        string genreStr = parts[2].Trim();
+                        int year = int.Parse(parts[3].Trim());
+                        decimal price = decimal.Parse(parts[4].Trim());
+
+                        // Преобразуем строку в ваш Enum BookGenre (игнорируя регистр букв)
+                        if (Enum.TryParse(genreStr, true, out BookGenre genre))
+                        {
+                            // Генерируем короткий ID для новой книги (например, B8F2)
+                            string bookID = "B" + Guid.NewGuid().ToString().Substring(0, 4).ToUpper();
+
+                            // Создаем книгу и добавляем в ваш список books
+                            Book newBook = new Book(bookID, title, author, genre, year, price);
+                            books.Add(newBook);
+                            addedCount++;
+                        }
+                        else
+                        {
+                            errorCount++; // Ошибка: такого жанра нет в BookGenre
+                        }
+                    }
+                    catch
+                    {
+                        errorCount++; // Ошибка: неверный формат чисел или цены
+                    }
+                }
+                else
+                {
+                    errorCount++; // Ошибка: неверное количество полей (; разделено не на 5 частей)
+                }
+            }
+
+            Console.WriteLine("\n--- Результаты импорта ---");
+            Console.WriteLine($"Успешно добавлено книг: {addedCount}");
+            if (errorCount > 0)
+            {
+                Console.WriteLine($"Пропущено строк с ошибками: {errorCount}");
+            }
+        }
+
+        // === 10 — ДОБАВИТЬ КНИГУ В КОРЗИНУ ===
+        static void AddBookToCart()
+        {
+            Console.WriteLine("=== ДОБАВЛЕНИЕ В КОРЗИНУ ===");
+
+            if (books.Count == 0)
+            {
+                Console.WriteLine("Каталог магазина пуст. Добавлять нечего.");
+                return;
+            }
+
+            // Выводим текущий каталог книг
+            for (int i = 0; i < books.Count; i++)
+            {
+                Console.Write($"{i + 1}. ");
+                books[i].PrintInfo();
+            }
+
+            Console.Write("\nВведите порядковый номер книги для добавления в корзину: ");
+            if (int.TryParse(Console.ReadLine(), out int index) && index > 0 && index <= books.Count)
+            {
+                Book selectedBook = books[index - 1];
+                cart.Add(selectedBook);
+                Console.WriteLine($"Книга \"{selectedBook.Title}\" добавлена в корзину.");
+            }
+            else
+            {
+                Console.WriteLine("Ошибка: введен неверный номер.");
+            }
+        }
+
+        // === 11 — ИТОГОВАЯ СТОИМОСТЬ КОРЗИНЫ ===
+        static void ShowCartTotal()
+        {
+            Console.WriteLine("=== ВАША КОРЗИНА ===");
+            if (cart.Count == 0)
+            {
+                Console.WriteLine("Корзина пуста.");
+                return;
+            }
+
+            decimal totalSum = 0;
+            Console.WriteLine("Товары в корзине:");
+
+            foreach (var book in cart)
+            {
+                // Отображаем информацию о книге с помощью вашего метода PrintInfo()
+                book.PrintInfo();
+                totalSum += book.Price;
+            }
+
+            Console.WriteLine("-------------------------------------------------------");
+            Console.WriteLine($"Всего товаров в корзине: {cart.Count}");
+            Console.WriteLine($"Итоговая стоимость: {totalSum:F2} руб.");
+        }
+
 
     }
 }
