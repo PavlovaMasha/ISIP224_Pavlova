@@ -64,7 +64,7 @@ namespace ISIP224_Pavlova
                         Console.WriteLine("Подсчёт количества согласных букв в тексте: " + Count_of_soglas_bykv(texts[i]));
                         Console.WriteLine("Самое длинное слово в тексте: " + Max_word(texts[i]));
                         Console.WriteLine("Статистика по частоте встречаемости каждой буквы:");
-                        Console.WriteLine(Count_of_every_bykv(text));
+                        Console.WriteLine(Count_of_every_bykv(texts[i]));
                         Console.WriteLine();
                     }
                 }
@@ -75,5 +75,105 @@ namespace ISIP224_Pavlova
             }
             Console.WriteLine("Программа завершена.");
         }
+
+        static string[] GetWords(string text)
+        {
+            char[] separators =
+            {
+                ' ', '\t', '\n', '\r',
+                '.', ',', '!', '?', ';', ':',
+                '-', '(', ')', '[', ']',
+                '"', '«', '»'
+            };
+            return text.Split(separators, StringSplitOptions.RemoveEmptyEntries); //игнорит пустые строки
+        }
+
+        static int Count_of_words(string text)
+        {
+            string[] words = GetWords(text);
+            return words.Length;
+        }
+
+        static string Min_word(string text)
+        {
+            string[] words = GetWords(text);
+            string minWord = words[0];
+            for (int i = 1; i < words.Length; i++)
+            {
+                if (words[i].Length < minWord.Length)
+                {
+                    minWord = words[i];
+                }
+            }
+            return minWord;
+        }
+
+        static int Count_of_sentences(string text)
+        {
+            int count = 0;
+            for (int i = 0; i < text.Length; i++)
+            {
+                if (text[i] == '.' || text[i] == '!' || text[i] == '?')
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        static int Count_of_glas_bykv(string text)
+        {
+            string glas_b = "аеёиоуыэюяАЕЁИОУЫЭЮЯ";
+            int count = 0;
+            for (int i = 0; i < text.Length; i++)
+            {
+                if (glas_b.Contains(text[i]))
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        static int Count_of_soglas_bykv(string text)
+        {
+            string soglas_b = "бвгджзйклмнпрстфхцчшщБВГДЖЗЙКЛМНПРСТФХЦЧШЩ";
+            int count = 0;
+            for (int i = 0; i < text.Length; i++)
+            {
+                if (soglas_b.Contains(text[i]))
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        static string Max_word(string text)
+        {
+            string[] words = GetWords(text);
+            string maxWord = words[0];
+            for (int i = 1; i < words.Length; i++)
+            {
+                if (words[i].Length > maxWord.Length)
+                {
+                    maxWord = words[i];
+                }
+            }
+            return maxWord;
+        }
+
+        static void Count_of_every_bykv(string text)
+        {
+            int count = 0;
+            string[] words = GetWords(text);
+            string vowels = "аеёиоуыэюябвгджзйклмнпрстфхцчшщ";
+            for (int i = 0; i < words.Length; i++) 
+            { 
+                
+            }
+
+        }
+
     }
 }
