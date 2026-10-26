@@ -96,6 +96,52 @@ namespace ISIP224_Pavlova
         }
     }
 
+    public class Course
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public Faculty Faculty { get; set; }
+        public int MaxStudents { get; set; }
+        public Teacher Teacher { get; set; }
+        public List<Student> Students { get; set; }
+
+        public Course(int id, string title, Faculty faculty, int maxStudents)
+        {
+            if (id <= 0)
+                throw new ArgumentException("ID курса должен быть больше нуля.");
+
+            if (string.IsNullOrWhiteSpace(title))
+                throw new ArgumentException("Название курса не может быть пустым.");
+
+            if (maxStudents <= 0)
+                throw new ArgumentException("Количество мест должно быть больше нуля.");
+
+            Id = id;
+            Title = title;
+            Faculty = faculty;
+            MaxStudents = maxStudents;
+            Students = new List<Student>();
+        }
+
+        public bool HasStudent(int studentId)
+        {
+            return Students.Any(student => student.Id == studentId);
+        }
+
+        public bool IsFull()
+        {
+            return Students.Count >= MaxStudents;
+        }
+
+        public string GetInfo()
+        {
+            string teacherName = Teacher == null ? "не назначен" : Teacher.GetFullName();
+
+            return "Курс #" + Id + ": " + Title + ", факультет: " + Faculty +
+                   ", мест: " + Students.Count + "/" + MaxStudents +
+                   ", преподаватель: " + teacherName;
+        }
+    }
 
     internal class Program
     {
