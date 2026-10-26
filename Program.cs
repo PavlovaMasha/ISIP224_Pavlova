@@ -313,7 +313,7 @@ namespace ISIP224_Pavlova
             Console.WriteLine("10. Информация о курсе");
             Console.WriteLine("11. Студенты конкретного курса");
             Console.WriteLine("0. Выход");
-            Console.Write("Выберите действие: ");
+            Console.Write("Выберите действие (только цифру): ");
         }
 
         private void HandleChoice(int choice)
@@ -465,7 +465,7 @@ namespace ISIP224_Pavlova
 
         private void ShowStudentCourses()
         {
-            int studentId = ReadNumber("Введите ID студента: ", 1, 1000000);
+            int studentId = ReadNumber("Введите ID студента (от 1 до 1000000): ", 1, 1000000);
 
             Student student = university.FindStudent(studentId);
 
@@ -478,7 +478,7 @@ namespace ISIP224_Pavlova
             List<Course> courses = university.GetStudentCourses(studentId);
 
             Console.WriteLine();
-            Console.WriteLine("КУРСЫ СТУДЕНТА: " + student.GetFullName());
+            Console.WriteLine("КУРСЫ СТУДЕНТА " + student.GetFullName());
 
             if (courses.Count == 0)
             {
@@ -589,7 +589,7 @@ namespace ISIP224_Pavlova
             }
 
             Console.WriteLine();
-            Console.WriteLine("===== ДЕТАЛЬНАЯ ИНФОРМАЦИЯ О КУРСЕ =====");
+            Console.WriteLine("ДЕТАЛЬНАЯ ИНФОРМАЦИЯ О КУРСЕ");
             Console.WriteLine(course.GetInfo());
 
             string teacherName = course.Teacher == null ? "не назначен" : course.Teacher.GetFullName();
@@ -632,6 +632,10 @@ namespace ISIP224_Pavlova
     {
         static void Main(string[] args)
         {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+
+            ConsoleMenu menu = new ConsoleMenu();
+            menu.Run();
         }
     }
 }
