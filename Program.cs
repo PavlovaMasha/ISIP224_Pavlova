@@ -143,6 +143,113 @@ namespace ISIP224_Pavlova
         }
     }
 
+    public class University
+    {
+        public List<Student> Students { get; set; }
+        public List<Teacher> Teachers { get; set; }
+        public List<Course> Courses { get; set; }
+
+        public University()
+        {
+            Students = new List<Student>();
+            Teachers = new List<Teacher>();
+            Courses = new List<Course>();
+        }
+
+        public Student AddStudent(string lastName, string firstName, string patronymic,
+                                  int age, Faculty faculty)
+        {
+            int id = Students.Count == 0 ? 1 : Students.Max(student => student.Id) + 1;
+
+            Student student = new Student(id, lastName, firstName, patronymic, age, faculty);
+
+            Students.Add(student);
+
+            return student;
+        }
+
+        public Teacher AddTeacher(string lastName, string firstName, string patronymic,
+                                  int age, AcademicDegree degree)
+        {
+            int id = Teachers.Count == 0 ? 1 : Teachers.Max(teacher => teacher.Id) + 1;
+
+            Teacher teacher = new Teacher(id, lastName, firstName, patronymic, age, degree);
+
+            Teachers.Add(teacher);
+
+            return teacher;
+        }
+
+        public Course AddCourse(string title, Faculty faculty, int maxStudents)
+        {
+            int id = Courses.Count == 0 ? 1 : Courses.Max(course => course.Id) + 1;
+
+            Course course = new Course(id, title, faculty, maxStudents);
+
+            Courses.Add(course);
+
+            return course;
+        }
+
+        public Student FindStudent(int id)
+        {
+            return Students.FirstOrDefault(student => student.Id == id);
+        }
+
+        public Teacher FindTeacher(int id)
+        {
+            return Teachers.FirstOrDefault(teacher => teacher.Id == id);
+        }
+
+        public Course FindCourse(int id)
+        {
+            return Courses.FirstOrDefault(course => course.Id == id);
+        }
+
+        public void EnrollStudent(int studentId, int courseId)
+        {
+            Student student = FindStudent(studentId);
+
+            if (student == null)
+                throw new InvalidOperationException("Студент с таким ID не найден.");
+
+            Course course = FindCourse(courseId);
+
+            if (course == null)
+                throw new InvalidOperationException("Курс с таким ID не найден.");
+
+            if (course.HasStudent(studentId))
+                throw new InvalidOperationException("Студент уже записан на этот курс.");
+
+            if (course.IsFull())
+                throw new InvalidOperationException("На курсе нет свободных мест.");
+
+            course.Students.Add(student);
+        }
+
+        public void AssignTeacher(int teacherId, int courseId)
+        {
+            Teacher teacher = FindTeacher(teacherId);
+
+            if (teacher == null)
+                throw new InvalidOperationException("Преподаватель с таким ID не найден.");
+
+            Course course = FindCourse(courseId);
+
+            if (course == null)
+                throw new InvalidOperationException("Курс с таким ID не найден.");
+
+            course.Teacher = teacher;
+        }
+
+        public List<Course> GetStudentCourses(int studentId)
+        {
+            return Courses
+                .Where(course => course.HasStudent(studentId))
+                .ToList();
+        }
+    }
+
     internal class Program
     {
         static void Main(string[] args)
