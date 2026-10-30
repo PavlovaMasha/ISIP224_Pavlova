@@ -140,6 +140,65 @@ namespace ISIP224_Pavlova
         }
     }
 
+    public class VVG : Goblin
+    {
+        public VVG() : base()
+        {
+            Name = "Босс ВВГ";
+            HP = 40;
+            Attack = 9;
+            Defense = 2;
+            CritChance = 30;
+        }
+    }
+
+    public class Kovalsky : Skeleton
+    {
+        public Kovalsky() : base()
+        {
+            Name = "Босс Ковальский";
+            HP = 62;
+            Attack = 9;
+            Defense = 4;
+        }
+    }
+
+    public class ArchmageCpp : Mage
+    {
+        public ArchmageCpp() : base()
+        {
+            Name = "Босс Архимаг C++";
+            HP = 32;
+            Attack = 8;
+            Defense = 1;
+            FreezeChance = 35;
+        }
+    }
+
+    public class PestovCMinusMinus : Skeleton
+    {
+        public int FreezeChance { get; }
+        public PestovCMinusMinus() : base()
+        {
+            Name = "Босс Пестов С--";
+            HP = 32;
+            Attack = 12;
+            Defense = 1;
+            FreezeChance = 40;
+        }
+
+        public override void AttackPlayer(Player player)
+        {
+            player.HP -= Attack;
+            Console.WriteLine($"Пестов С-- игнорирует броню и наносит {Attack} урона.");
+            if (Random.Next(1, 101) <= FreezeChance)
+            {
+                player.Frozen = true;
+                Console.WriteLine("Пестов С-- накладывает заморозку! Игрок пропустит следующий ход.");
+            }
+        }
+    }
+
     public class Player
     {
         public int HP { get; set; }
