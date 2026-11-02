@@ -159,7 +159,7 @@ namespace ISIP224_Pavlova
         public Student AddStudent(string lastName, string firstName, string patronymic,
                                   int age, Faculty faculty)
         {
-            int id = Students.Count == 0 ? 1 : Students.Max(student => student.Id) + 1;
+            int id = Students.Count == 0 ? 1 : Students.Max(s => s.Id) + 1;
 
             Student student = new Student(id, lastName, firstName, patronymic, age, faculty);
 
@@ -171,7 +171,7 @@ namespace ISIP224_Pavlova
         public Teacher AddTeacher(string lastName, string firstName, string patronymic,
                                   int age, AcademicDegree degree)
         {
-            int id = Teachers.Count == 0 ? 1 : Teachers.Max(teacher => teacher.Id) + 1;
+            int id = Teachers.Count == 0 ? 1 : Teachers.Max(t => t.Id) + 1;
 
             Teacher teacher = new Teacher(id, lastName, firstName, patronymic, age, degree);
 
@@ -182,7 +182,7 @@ namespace ISIP224_Pavlova
 
         public Course AddCourse(string title, Faculty faculty, int maxStudents)
         {
-            int id = Courses.Count == 0 ? 1 : Courses.Max(course => course.Id) + 1;
+            int id = Courses.Count == 0 ? 1 : Courses.Max(c => c.Id) + 1;
 
             Course course = new Course(id, title, faculty, maxStudents);
 
