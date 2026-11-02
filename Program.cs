@@ -509,7 +509,7 @@ namespace ISIP224_Pavlova
             string lastName = ReadText("Введите фамилию: ");
             string firstName = ReadText("Введите имя: ");
             string patronymic = ReadText("Введите отчество: ");
-            int age = ReadNumber("Введите возраст (14-100): ", 14, 100);
+            int age = ReadNumber("Введите возраст (18-100): ", 18, 100);
             AcademicDegree degree = ReadDegree();
 
             Teacher teacher = university.AddTeacher(lastName, firstName, patronymic, age, degree);
