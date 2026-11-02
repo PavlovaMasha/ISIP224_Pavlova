@@ -12,7 +12,7 @@ namespace ISIP224_Pavlova
         public string Name { get; }
         protected Item(string name) => Name = name;
 
-        public void Describe();
+        public abstract void Describe();
     }
 
     public class HealingPotion : Item
@@ -57,13 +57,13 @@ namespace ISIP224_Pavlova
 
     public abstract class Enemy
     {
-        public string Name { get; }
+        public string Name { get; protected set; }
 
         public int HP { get; set; }
 
-        public int Attack { get; }
+        public int Attack { get; protected set; }
 
-        public int Defense { get; }
+        public int Defense { get; protected set; }
 
         protected Random Random { get; } = new Random();
         protected Enemy(string name, int hp, int attack, int defense)
@@ -84,7 +84,7 @@ namespace ISIP224_Pavlova
 
     public class Goblin : Enemy
     {
-        public int CritChance { get; }
+        public int CritChance { get; protected set; }
         public Goblin() : base("Гоблин", 20, 6, 2)
         {
             CritChance = 20;
@@ -119,7 +119,7 @@ namespace ISIP224_Pavlova
     public class Mage : Enemy
 
     {
-        public int FreezeChance { get; }
+        public int FreezeChance { get; protected set; }
         public Mage() : base("Маг", 18, 5, 1)
         {
             FreezeChance = 25;
@@ -234,8 +234,8 @@ namespace ISIP224_Pavlova
         private bool PlayerDefendedLastTurn { get; set; }
         public void Start()
         {
-            Console.WriteLine("=== Текстовый рогалик ===");
             Console.WriteLine("Нажимайте Enter, чтобы продолжить.");
+            Console.WriteLine("");
             while (Player.HP > 0)
             {
 
