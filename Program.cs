@@ -234,12 +234,11 @@ namespace ISIP224_Pavlova
         private bool PlayerDefendedLastTurn { get; set; }
         public void Start()
         {
-            Console.WriteLine("Нажимайте Enter, чтобы продолжить.");
             Console.WriteLine("");
             while (Player.HP > 0)
             {
 
-                Console.WriteLine($"===== Ход { Turn} ===== ");
+                Console.WriteLine($"Ход { Turn}");
                 Player.ShowStats();
                 if (Turn % 10 == 0)
                 {
